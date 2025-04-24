@@ -7,17 +7,18 @@ django.setup()
 from fastapi import FastAPI, HTTPException, status
 from typing import List
 
-from Inicio.models import TipoUsuario, Usuario, TipoProd
+from Inicio.models import TipoUsuario, Usuario, TipoProd, Categoria
 from api.schemas import (
     TipoUsuarioOut,
     UsuarioIn,
     UsuarioOut,
-    TipoProdOut
+    TipoProdOut,
+    CategoriaOut
 )
 from api.utils import (
     serialize_tipo_usuario,
     serialize_usuario,
-    serialize_tipo_prod
+    serialize_tipo_prod, serialize_categoria
 )
 
 app = FastAPI(title="HCS API")
@@ -38,6 +39,12 @@ def get_tipo_usuario(pk: int):
         raise HTTPException(status_code=404, detail="TipoUsuario no encontrado")
     return serialize_tipo_usuario(t)
 
+
+# Categorias
+@app.get("/api/categorias/", response_model=List[CategoriaOut])
+def list_categorias():
+    qs = Categoria.objects.all()
+    return [serialize_categoria(c) for c in qs]
 
 # Productos
 

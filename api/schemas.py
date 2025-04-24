@@ -8,6 +8,13 @@ class TipoUsuarioOut(BaseModel):
     class Config:
         orm_mode = True
 
+class CategoriaOut(BaseModel):
+    idCategoria: int
+    nombreCategoria: str
+
+    class Config:
+        orm_mode = True
+
 class ProductoOut(BaseModel):
     idProducto: int
     nombreProducto: str

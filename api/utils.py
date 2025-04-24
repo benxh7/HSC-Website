@@ -1,11 +1,17 @@
-from Inicio.models import TipoUsuario, Usuario, Producto, TipoProd
-from api.schemas import TipoUsuarioOut, UsuarioOut, ProductoOut, TipoProdOut
+from Inicio.models import TipoUsuario, Usuario, Producto, TipoProd, Categoria
+from api.schemas import TipoUsuarioOut, UsuarioOut, ProductoOut, TipoProdOut, CategoriaOut
 
 
 def serialize_tipo_usuario(t: TipoUsuario) -> TipoUsuarioOut:
     return TipoUsuarioOut(
         idTipoUsuario=t.idTipoUsuario,
         nombreTipo=t.nombreTipo
+    )
+
+def serialize_categoria(c: Categoria) -> CategoriaOut:
+    return CategoriaOut(
+        idCategoria=c.idCategoria,
+        nombreCategoria=c.nombreCat
     )
 
 def serialize_producto(p: Producto) -> ProductoOut:
