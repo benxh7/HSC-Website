@@ -1,9 +1,9 @@
-# 📚 TITULO DEL PROYECTO: The Forest Wiki
+# 📚 TITULO DEL PROYECTO: HSC Componentes
 
-# ¿Que es The Forest Wiki?:
+# ¿Que es HSC?:
 
-En The Forest Wiki encontrarás todo lo que necesitas saber sobre el juego "THE FOREST", desde guías y trucos hasta
-información sobre los personajes y la historia. ¡Explora y descubre todo lo que necesitas! 
+En HSC Componentes, nos dedicamos a la venta de componentes electrónicos y accesorios para computadoras. Si eres gamer
+o un entusiasta de la tecnología, ¡este es tu lugar! Ofrecemos una amplia gama de productos, desde tarjetas gráficas hasta fuentes de alimentación,
 
 ## 🧠 DESCRIPCIÓN: 
 
@@ -61,7 +61,7 @@ Python 3.x
 
 Django 4.x
 
-FastAPI
+FastAPI - Standard
 
 Pillow
 
