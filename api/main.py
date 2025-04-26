@@ -24,13 +24,13 @@ from api.utils import (
 app = FastAPI(title="HCS API")
 
 
-# Tipos de usuario
+# Obtenemos la lista de tipos de usuario
 @app.get("/api/tipousuarios/", response_model=List[TipoUsuarioOut])
 def list_tipo_usuarios():
     qs = TipoUsuario.objects.all()
     return [serialize_tipo_usuario(t) for t in qs]
 
-
+# Obtenemos un tipo de usuario especifico mediante su ID
 @app.get("/api/tipousuarios/{pk}/", response_model=TipoUsuarioOut)
 def get_tipo_usuario(pk: int):
     try:
@@ -40,19 +40,19 @@ def get_tipo_usuario(pk: int):
     return serialize_tipo_usuario(t)
 
 
-# Categorias
+# Obtenemos la lista de categorias
 @app.get("/api/categorias/", response_model=List[CategoriaOut])
 def list_categorias():
     qs = Categoria.objects.all()
     return [serialize_categoria(c) for c in qs]
 
-# Productos
-
+# Obtenemos todos los productos de la pagina
 @app.get("/api/productos/", response_model=List[TipoProdOut])
 def list_categorias():
     qs = TipoProd.objects.prefetch_related("productos").all()
     return [serialize_tipo_prod(tp) for tp in qs]
 
+# Obtenemos un producto especifico mediante su ID
 @app.get("/api/productos/{pk}/", response_model=TipoProdOut)
 def get_tipo_prod(pk: int):
     try:
@@ -61,14 +61,14 @@ def get_tipo_prod(pk: int):
         raise HTTPException(status_code=404, detail="TipoProd no encontrado")
     return serialize_tipo_prod(tp)
 
-# Usuarios
-
+# Obtenemos una lista de usuarios
 @app.get("/api/usuarios/", response_model=List[UsuarioOut])
 def list_usuarios():
     qs = Usuario.objects.select_related("tipousuario").all()
     return [serialize_usuario(u) for u in qs]
 
-
+# Obtenemos a un usuario especifico mediante su username
+# quizas debamos hacerlo mediante su ID.
 @app.get("/api/usuarios/{username}/", response_model=UsuarioOut)
 def get_usuario(username: str):
     try:
