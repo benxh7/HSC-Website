@@ -68,7 +68,7 @@ def list_usuarios():
     return [serialize_usuario(u) for u in qs]
 
 # Obtenemos a un usuario especifico mediante su username
-# quizas debamos hacerlo mediante su ID.
+# quizas debamos hacerlo mediante su ID. CRUD DE USUARIOS
 @app.get("/api/usuarios/{username}/", response_model=UsuarioOut)
 def get_usuario(username: str):
     try:
@@ -76,3 +76,40 @@ def get_usuario(username: str):
     except Usuario.DoesNotExist:
         raise HTTPException(status_code=404, detail="Usuario no encontrado")
     return serialize_usuario(u)
+
+# Creamos a un usuario mediante la API (CRUD)
+@app.post("/api/usuarios/", response_model=UsuarioOut, status_code=status.HTTP_201_CREATED)
+def create_usuario(payload: UsuarioIn):
+    # valida si el username ya existe
+    if Usuario.objects.filter(username=payload.username).exists():
+        raise HTTPException(status_code=400, detail="Username ya existe")
+    # crea el usuario
+    u = Usuario.objects.create(
+        username=payload.username,
+        contrasennia=payload.contrasennia,
+        nombre=payload.nombre,
+        apellido=payload.apellido,
+        email=payload.email,
+        tipousuario_id=payload.tipousuario
+    )
+    return serialize_usuario(u)
+
+# Actualizamos a un usuario mediante su username
+@app.put("/api/usuarios/{username}/", response_model=UsuarioOut)
+def update_usuario(username: str, payload: UsuarioIn):
+    try:
+        u = Usuario.objects.get(username=username)
+    except Usuario.DoesNotExist:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    for field, val in payload.dict().items():
+        setattr(u, field, val)
+    u.save()
+    return serialize_usuario(u)
+
+# Eliminamos a un usuario mediante su username
+@app.delete("/api/usuarios/{username}/", status_code=status.HTTP_204_NO_CONTENT)
+def delete_usuario(username: str):
+    deleted, _ = Usuario.objects.filter(username=username).delete()
+    if not deleted:
+        raise HTTPException(status_code=404, detail="Usuario no encontrado")
+    return None
